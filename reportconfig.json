@@ -1,0 +1,17 @@
+{
+      "session_details" : {
+      "Owner": "",
+      "application_name": "Molina Test Instance",
+      "platform": "Windows 10",
+      "additional_information":"Browser: Chrome"
+  },
+  "report_options" :{
+      "title": "Test Report",
+      "logo": "https://www.inovaare.com/wp-content/themes/stratusx/assets/images/logo_white.png",
+      "show_reference": "True",
+      "zip_if_screenshot": "True"
+  },
+    "history" :{
+      "connection_string" : "Driver={SQL Server};Server=INBLRRDSRV01;Database=DeltaIndiaTest;Trusted_Connection=yes;"
+  }
+}

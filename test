@@ -1,0 +1,1580 @@
+import datetime
+import time
+
+from pages.basepage import BasePage
+from selenium.webdriver.common.by import By
+import re
+
+
+class IA_Page(BasePage):
+    ia_tiles_click_element = By.XPATH, "//h4[contains(text(),'Internal Audit')]"
+    ia_statistics_element= By.XPATH, "(//span[contains(text(),' Internal Audit Statistics ')])[1]"
+    ia_audit_library= By.XPATH, "//li[@id='auditBox']"
+    add_audit_button= By.XPATH,"//span[contains(text(),'Add')]"
+    activity_type_span_element= By.XPATH, "(//font[contains(text(),'Activity Type')])[1]"
+    activity_type_element = By.XPATH, "//ng-multiselect-dropdown[@id='activityType']"
+    reference_to_parent_radio_btn = By.XPATH, "(//input[@id='referenceToParent'])[1]"
+    reference_to_audit_span_element = By.XPATH, "(//h3[contains(text(),'Reference to Audit')])[1]"
+    component_responsibilities_text_boxelement = By.XPATH, "//textarea[@id='componentResponsibilities']"
+    functional_area_span_element = By.XPATH, "(//font[contains(text(),'Functional Area')])[2]"
+    functional_area_element = By.XPATH, "//ng-multiselect-dropdown[@id='subProcess']"
+    sub_functional_area_element = By.XPATH, "//ng-multiselect-dropdown[@id='subFunctionalArea']"
+    sub_functional_area_span_element = By.XPATH, "(//font[contains(text(),'Sub Functional Area')])[1]"
+    state_span_element = By.XPATH, "(//font[contains(text(),'State')])[2]"
+    state_multiselect_dropdown = By.XPATH, "//ng-multiselect-dropdown[@id='stateOrDept']"
+    plan_type_span_element = By.XPATH, "(//font[contains(text(),'Plan Type')])[1]"
+    plan_type_element = By.XPATH, "//ng-multiselect-dropdown[@id='planType']"
+    line_of_business_element = By.XPATH, "//ng-multiselect-dropdown[@id='LOBorDepts']"
+    contract_select_element = By.XPATH, "//ng-multiselect-dropdown[@id='contracts']"
+    audit_type_select_element = By.XPATH, "//ng-multiselect-dropdown[@id='caseType']"
+    initial_audit_risk_level_span_element = By.XPATH, "(//font[contains(text(),'Initial Audit Risk Level')])[2]"
+    initial_audit_risk_level_select_element = By.XPATH, "//ng-multiselect-dropdown[@id='severity']"
+    activity_rationale_text_boxelement = By.XPATH, "//textarea[@id='auditRationale']"
+    activity_frequency_span_element= By.XPATH, "(//font[contains(text(),'Activity Frequency')])[1]"
+    activity_frequency_element = By.XPATH, "//ng-multiselect-dropdown[@id='auditFrequency']"
+    activity_start_date_calender_element = By.XPATH, "(//i[@class='fa fa-calendar'])[3]/.."
+    review_period_start_date_calender_element = By.XPATH, "(//i[@class='fa fa-calendar'])[7]/.."
+    review_period_end_date_calender_element = By.XPATH, "(//i[@class='fa fa-calendar'])[8]/.."
+    add_contracts_span_element = By.XPATH, "(//span[contains(text(),'Add Contracts')])[1]"
+    activity_description_text_box_element = By.XPATH, "//textarea[@id='purpose']"
+    compliance_or_fwa_span_element = By.XPATH, "//font[text()='Compliance or FWA?']"
+    compliance_or_fwa_radio_btn = By.XPATH, "(//input[@id='processHierarchy'])[1]"
+    activate_radio_btn = By.XPATH, "(//input[@id='isActiveProcess'])[1]"
+    activate_span_element = By.XPATH, "//font[text()='Activate']"
+    assign_to_compliance_manager_filter_button = By.XPATH, "//div/a[@id='issueCorrectionAssignedToComplianceManager_filterbtn']"
+    expand_button = By.XPATH, "(//button[contains(text(),'Expand ')])[1]"
+    doc_submission_and_review_tab_element = By.XPATH, "(//*[contains(text(),'Doc Submission and Review')])[1]"
+    floater_button = By.XPATH, "//li[@id='kt_demo_panel_toggle']"
+    task_menu_element = By.XPATH, "//a[@id='externalAuditTaskLibraryMenu']"
+    add_new_task_button = By.XPATH, "(//button[contains(text(),'ADD NEW TASK')])[1]"
+    initial_document_request_menu = By.XPATH, "(//button[contains(text(),'Initial Document Request')])[1]"
+    functional_area_task_element = By.XPATH, "(//ng-multiselect-dropdown[@id='subProcess'])[3]"
+    asignee_filter_button = By.XPATH, "//div/a[@id='taskAssignee_filterbtn']"
+    save_button_task_element = By.XPATH, "//button[contains(text(),'Save')]"
+    save_button_element = By.XPATH, "//span[contains(text(),'Save')]"
+    ok_button_after_save = By.XPATH, "//button[contains(text(),'OK')]"
+    expand_icon_task = By.XPATH, "//button[@title='Expand']/i"
+    save_and_submit_button_element = By.XPATH, "//span[contains(text(),'Save & Submit')]"
+
+
+
+
+    # issuedescriptiontextelement=By.XPATH,"//textarea[@id='issueDesc']"
+    # issuecategoryelement=By.XPATH,"(//input[@id='issueCategory'])[1]"
+    # issue_reporter_filter_button=By.XPATH,"//a[@id='issueReporter_filterbtn']"
+    search_panel_input=By.XPATH,"//*[@id='search-panel']/div/form/div[1]/div[2]/div/input"
+    search_button_element=By.XPATH,"//button[contains(text(),'Search')]"
+    user_check_box=By.XPATH,"/html[1]/body[1]/ngb-modal-window[1]/div[1]/div[1]/pzeon-bundle-filter-modal[1]/div[2]/ngb-accordion[1]/div[2]/div[2]/div[1]/div[2]/perfect-scrollbar[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]"
+    ok_button=By.XPATH,"//button[contains(text(),'Ok')]"
+    ia_team_checkbox= By.XPATH, "//*[@class='mat-checkbox mat-accent']"
+    filter_button=By.XPATH,"//div[@id='kt_page_portlet']/div/div[2]"
+    notification_area_element=By.XPATH,"//ng-multiselect-dropdown[@id='notificationArea']"
+    drop_down_list_element=By.XPATH,"//div[@class='dropdown']/div/.//div"
+    dropup_elements = By.XPATH, "//div[@class='dropup']/div/.//div"
+    issue_category_risk_button=By.XPATH,"(//input[@id='issueCategory'])[1]"
+    issue_category_CAP_button=By.XPATH,"(//input[@id='issueCategory'])[2]"
+    implication_dropdown_element=By.XPATH,"//ng-multiselect-dropdown[@id='implications']"
+
+    # regulatory_requirement_element=By.XPATH,"//input[@id='regulatoryRequirement']"
+    # issue_identfied_text_area_element=By.XPATH,"//textarea[@id='issueIdentified']"
+    # issue_closed_span_element=By.XPATH,"// span[ @ title = 'ISSUE(S) CLOSED']"
+    external_firm_name_element=By.XPATH, "//ng-multiselect-dropdown[@id='externalFirmName']"
+    audit_contractor_name_textbox_element=By.XPATH, "//input[@id='auditContractorName']"
+    internal_auditor_span_element = By.XPATH, "(//font[contains(text(),'External Auditor Name')])[1]"
+    internal_auditor_name_textbox_element = By.XPATH, "//input[@id='externalAuditorName']"
+    external_audit_facilitator_filter_button = By.XPATH, "//div/a[@id='externalAuditFacilitator_filterbtn']"
+    # activity_start_date_label_element = By.XPATH, "//font[contains(text(),'Activity Start Date')]"
+    upload_audit_notice_span_element = By.XPATH, "//font[text()='Upload Audit Notice']"
+    attach_button = By.XPATH, "//button[@class='btn btn-outline-secondary']/i[contains(text(),'attach_file')]"
+    input_browse_button = By.XPATH, "//input[@id='getFile']"
+    save_and_continue_button = By.XPATH, "//button[contains(text(),'Save & Continue')]"
+    date_of_external_audit_notice_calender_element = By.XPATH, "(//i[@class='fa fa-calendar'])[3]/.."
+    involve_functional_owner_radio_btn = By.XPATH, "(//input[@id='wantToInvolveFO'])[1]"
+    functional_area_executive_owners_filter_button = By.XPATH, "//div/a[@id='executiveOwnerName_filterbtn']"
+
+
+    issue_name_field_filter_dialog=By.XPATH,"(//input[@id='issueName'])[2]"
+    go_button_element=By.XPATH,"//button[contains(text(),'Go')]"
+    notification_details=By.XPATH,"//h3[contains(text(),' NOTIFICATION DETAILS ')]"
+    issue_name_from_list_element=By.XPATH,"(//span[contains(text(),'Issue Name: ')]/following-sibling::*//span)[1]"
+    create_cap_toggle_button=By.XPATH,"(//button[@id='undefined']/following-sibling::*)[1]"
+    assign_issue_span_button=By.XPATH,"//span[contains(text(),'Assign Issue')]"
+    do_u_want_to_accept_issue_element=By.XPATH,"(//div[@id='isValidIssue'])[2]"
+    cap_team_element=By.XPATH,"//a[@id='capAnalystModal_filterbtn']"
+    condition_dropdown_element=By.XPATH,"//ng-multiselect-dropdown[@id='conditionModal']"
+    issue_risk_level_element=By.XPATH,"//div[@id='issueRiskLvlModal']"
+    attorney_radio_element=By.XPATH,"//div[@class='kt-radio-inline']/div/.//label"
+    save_button_assign_dialog_element=By.XPATH,"//button[contains(text(),'SAVE')]"
+    assigned_text=By.XPATH,"//div[@id='swal2-content']"
+    save_create_cap_element=By.XPATH,"//span[contains(text(),'Save & Create CAP')]"
+    attorney_radio_yes_element=By.XPATH,"(//input[@id='attorneyClientPrivilegeModal'])[1]"
+    attorney_radio_no_element = By.XPATH,"(//input[@id='attorneyClientPrivilegeModal'])[2]"
+    home_button_element=By.XPATH,"(//img[@src='./assets/media/logos/logo.png'])[2]"
+    cap_id_element=By.XPATH,"//input[@id='cap_Id']"
+    showing_1_of_1_result_element=By.XPATH,"// h3[contains(text(), 'Showing 1 of 1 results')]"
+    expand_button_element=By.XPATH,"//*[contains(text(),'Expand')]"
+    do_you_want_to_activate_cap_element=By.XPATH,"//ng-multiselect-dropdown[@id='isActiveProcess']"
+    cap_workgroup_filter_button=By.XPATH,"//*[@id='issueCorrectionAssignedToUsers_filterbtn']"
+    cap_details_save_button_element=By.XPATH,"//button[@id='save_fullbox_button']"
+    closure_cap_tab_element=By.XPATH,"//*[contains(text(),' Closure ')]"
+    input_cap_due_date_element=By.XPATH,"//input[@id='CAPDueDate']"
+    # issue_correction_tab_element=By.XPATH,"//*[contains(text(),'Issue Correction')]"
+    issue_correction_deliverable_document=By.XPATH,"//input[@id='IC_issueDocumentContainer']"
+    issue_correction_status_CAP_submitted_radio_btn=By.XPATH,"(//input[@id='subProcessStatus'])[2]"
+    issue_correction_status_CAP_deliverables_submitted_radio_btn=By.XPATH,"(//input[@id='subProcessStatus'])[3]"
+
+
+
+    def fnc_click_home_button(self):
+        home=self.wait_for_element(self.home_button_element,"clickable")
+        home.click()
+        return True
+    def fnc_click_external_audit_link(self):
+        time.sleep(3)
+        cap_element = self.wait_for_element(self.ia_tiles_click_element, 'clickable')
+        cap_start_time = datetime.datetime.now()
+        cap_element.click()
+        cap_stats=self.wait_for_element(self.ia_statistics_element, 'clickable')
+        cap_stop_time=datetime.datetime.now()
+        time_delta=cap_stop_time-cap_start_time
+        total_cap_loading_time=str(int(time_delta.total_seconds() * 1000))
+        return total_cap_loading_time
+    def fnc_click_external_audit_library(self):
+        cap_issue_library_element = self.wait_for_element(self.ia_audit_library, 'clickable')
+        time.sleep(2)
+        cap_start_time = datetime.datetime.now()
+        cap_issue_library_element.click()
+        issue_add_button = self.wait_for_element(self.add_audit_button, 'clickable')
+        cap_stop_time = datetime.datetime.now()
+        time_delta = cap_stop_time - cap_start_time
+        total_cap_loading_time = str(int(time_delta.total_seconds() * 1000))
+        return total_cap_loading_time
+    def fnc_click_add_button(self):
+        self.wait_for_element(self.add_audit_button, 'clickable')
+        time.sleep(3)
+        add=self.wait_for_element(self.add_audit_button,'clickable')
+        add.click()
+        time.sleep(1)
+        return True
+    def fnc_select_activity_type(self, activity_type_text):
+        activity_type_span = self.wait_for_element(self.activity_type_span_element, 'clickable')
+        activity_type_span.click()
+        activity_type_area = self.wait_for_element(self.activity_type_element, 'clickable')
+        activity_type_area.click()
+        activity_type_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in activity_type_elements:
+            if value.text == activity_type_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_reference_to_parent(self,status_text):
+        if status_text=="Yes":
+            reference_to_parent=self.wait_for_element(self.reference_to_parent_radio_btn, 'presence')
+            self.driver.execute_script("arguments[0].click();", reference_to_parent)
+    def fnc_select_functional_area(self, functional_area_text):
+        reference_to_audit = self.wait_for_element(self.reference_to_audit_span_element, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", reference_to_audit)
+        # functional_span = self.wait_for_element(self.functional_area_span_element, 'clickable')
+        # functional_span.click()
+        functional_area = self.wait_for_element(self.functional_area_element, 'clickable')
+        functional_area.click()
+        functional_area_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in functional_area_elements:
+            if value.text == functional_area_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_enter_component_responsibilities(self,activity_name_ea):
+        activity_name_text_box=self.wait_for_element(self.component_responsibilities_text_boxelement,'clickable')
+        activity_name_text_box.send_keys(activity_name_ea)
+        return True
+    def fnc_select_audit_type(self,audit_type_text):
+        audit_type = self.wait_for_element(self.audit_type_select_element, 'clickable')
+        audit_type.click()
+        audit_type_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in audit_type_elements:
+            if value.text == audit_type_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_Initial_audit_risk_level(self,risk_level_text):
+        state = self.wait_for_element(self.state_span_element, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", state)
+        risk_level = self.wait_for_element(self.initial_audit_risk_level_select_element, 'clickable')
+        risk_level.click()
+        risk_level_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in risk_level_elements:
+            if value.text == risk_level_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_enter_activity_rationale(self,activity_name_ea):
+        activity_name_text_box=self.wait_for_element(self.activity_rationale_text_boxelement,'clickable')
+        activity_name_text_box.send_keys(activity_name_ea)
+        return True
+    '''def fnc_enter_issue_description(self,issue_description):
+        issue_name_text_box = self.wait_for_element(self.issuecategoryelement, 'presence')
+        self.driver.execute_script("arguments[0].scrollIntoView();", issue_name_text_box)
+        issue_description_text_box=self.wait_for_element(self.issuedescriptiontextelement,'clickable')
+        issue_description_text_box.send_keys(issue_description)
+        return True'''
+    '''def fnc_select_issue_category(self,category):
+        scroll_element = self.wait_for_element(self.issuedescriptiontextelement, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", scroll_element)
+        time.sleep(1)
+        if category =='RISK':
+            risk_element=self.wait_for_element(self.issue_category_risk_button,'visibility')
+            self.driver.execute_script("arguments[0].click();", risk_element)
+        else:
+            cap_element=self.wait_for_element(self.issue_category_CAP_button,'visibility')
+            self.driver.execute_script("arguments[0].click();", cap_element)'''
+    '''
+        def fnc_click_issue_reporter_filter_button(self):
+        filter_button_element=self.wait_for_element(self.issue_reporter_filter_button,'clickable')
+        filter_button_element.click()
+        return True
+    '''
+    '''def fnc_search_cap_team(self,user):
+        search_input = self.wait_for_element(self.search_panel_input, 'clickable')
+        search_input.send_keys(user)
+        search_button = self.wait_for_element(self.search_button_element, 'clickable')
+        search_button.click()
+        user_checkbox_button = self.wait_for_element(self.ea_team_checkbox, 'clickable')
+        user_checkbox_button.click()
+        ok_button = self.wait_for_element(self.ok_button, 'clickable')
+        ok_button.click()
+        return True'''
+    def fnc_select_multiselect_dropdown(self,dropdown_elements,dropdown_value):
+        for value in dropdown_elements:
+            if value.text == dropdown_value:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    '''def fnc_select_notification_area(self,notification_area_text):
+        # issue_reporter=self.wait_for_element(self.issuedescriptiontextelement,'clickable')
+        # self.driver.execute_script("arguments[0].scrollIntoView();", issue_reporter)
+        time.sleep(2)
+        notification_area=self.wait_for_element(self.notification_area_element,'clickable')
+        notification_area.click()
+        notification_area_values=self.wait_for_elements(self.drop_down_list_element,'visibility')
+        for value in notification_area_values:
+            if value.text == notification_area_text:
+                value.click()
+                break
+        else:
+            return False
+        return True'''
+    '''def fnc_select_Implications(self,implication_text):
+        implication_element=self.wait_for_element(self.implication_dropdown_element,'clickable')
+        implication_element.click()
+        implication_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in implication_elements:
+            if value.text == implication_text:
+                value.click()
+                break
+        else:
+            return False
+        return True'''
+    def click_save_and_submit(self):
+        save_and_continue_button_element = self.wait_for_element(self.save_n_submit_button_element, 'clickable')
+        save_and_continue_button_element.click()
+        return True
+    def fnc_select_sub_functional_area(self,sub_functional):
+        sub_functional_span = self.wait_for_element(self.sub_functional_area_span_element, 'clickable')
+        sub_functional_span.click()
+        sub_functional_area = self.wait_for_element(self.sub_functional_area_element, 'clickable')
+        sub_functional_area.click()
+        sub_functional_area_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in sub_functional_area_elements:
+            if value.text == sub_functional:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_state(self, state):
+        functional_area = self.wait_for_element(self.functional_area_span_element, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", functional_area)
+        state_span = self.wait_for_element(self.state_span_element, 'clickable')
+        state_span.click()
+        state_element = self.wait_for_element(self.state_multiselect_dropdown, 'clickable')
+        state_element.click()
+        state_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in state_elements:
+            if value.text == state:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_plantype(self,plan_type):
+        plan_type_span = self.wait_for_element(self.plan_type_span_element, 'clickable')
+        plan_type_span.click()
+        plan = self.wait_for_element(self.plan_type_element, 'clickable')
+        plan.click()
+        plan_type_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in plan_type_elements:
+            if value.text == plan_type:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_Lob(self, lob):
+        lob_element = self.wait_for_element(self.line_of_business_element, 'clickable')
+        lob_element.click()
+        lob_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in lob_elements:
+            if value.text == lob:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_contract(self,contract_text):
+        state = self.wait_for_element(self.state_multiselect_dropdown, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", state)
+        contract = self.wait_for_element(self.contract_select_element, 'clickable')
+        contract.click()
+        contract_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in contract_elements:
+            if value.text == contract_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_activity_frequency(self, activity_frequency_text):
+        activity_frequency_span = self.wait_for_element(self.activity_frequency_span_element, 'clickable')
+        activity_frequency_span.click()
+        activity_frequency = self.wait_for_element(self.activity_frequency_element, 'clickable')
+        activity_frequency.click()
+        activity_frequency_elements = self.wait_for_elements(self.dropup_elements, 'visibility')
+        for value in activity_frequency_elements:
+            if value.text == activity_frequency_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_click_set_activity_start_date(self, year, month, day):
+        initial_audit_risk_level = self.wait_for_element(self.initial_audit_risk_level_span_element, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", initial_audit_risk_level)
+        document_element = self.wait_for_element(self.activity_start_date_calender_element, 'presence')
+        self.driver.execute_script("arguments[0].click();", document_element)
+        self.select_year_in_date_picker(year)
+        self.select_month_in_date_picker(month)
+        self.select_date_in_date_picker(day)
+        return True
+    def fnc_click_set_review_period_start_date(self, year, month, day):
+        # activity_scope = self.wait_for_element(self.activity_scope_text_box_element, 'clickable')
+        # self.driver.execute_script("arguments[0].scrollIntoView();", activity_scope)
+        document_element = self.wait_for_element(self.review_period_start_date_calender_element, 'presence')
+        self.driver.execute_script("arguments[0].click();", document_element)
+        self.select_year_in_date_picker(year)
+        self.select_month_in_date_picker(month)
+        self.select_date_in_date_picker(day)
+        return True
+    def fnc_click_set_review_period_end_date(self, year, month, day):
+        document_element = self.wait_for_element(self.review_period_end_date_calender_element, 'presence')
+        self.driver.execute_script("arguments[0].click();", document_element)
+        self.select_year_in_date_picker(year)
+        self.select_month_in_date_picker(month)
+        self.select_date_in_date_picker(day)
+        return True
+    def fnc_enter_activity_description(self,activity_description_ea):
+        activity_description_text_box=self.wait_for_element(self.activity_description_text_box_element,'clickable')
+        activity_description_text_box.send_keys(activity_description_ea)
+        return True
+    def fnc_select_compliance_or_fwa_radio_btn_element(self,status_text):
+        add_contracts = self.wait_for_element(self.add_contracts_span_element, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", add_contracts)
+        if status_text=="Yes":
+            compliance_or_fwa = self.wait_for_element(self.compliance_or_fwa_radio_btn, 'presence')
+            self.driver.execute_script("arguments[0].click();", compliance_or_fwa)
+    def fnc_select_activate_radio_btn_element(self,status_text):
+        activate_span = self.wait_for_element(self.activate_span_element, 'presence')
+        self.driver.execute_script("arguments[0].click();", activate_span)
+        if status_text=="Yes":
+            activate = self.wait_for_element(self.activate_radio_btn, 'presence')
+            self.driver.execute_script("arguments[0].click();", activate)
+        # ok_button = self.wait_for_element(self.ok_button_after_save, 'clickable')
+        # ok_button.click()
+    def fnc_select_assign_to_compliance_manager_filter_button(self,user):
+        compliance_or_fwa = self.wait_for_element(self.compliance_or_fwa_span_element, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", compliance_or_fwa)
+        filter_button=self.wait_for_element(self.assign_to_compliance_manager_filter_button,'clickable')
+        filter_button.click()
+        self.fnc_search_input_user(user)
+    def fnc_click_save_and_submit(self):
+        save_and_submit = self.wait_for_element(self.save_and_submit_button_element, 'clickable')
+        save_and_submit.click()
+        return True
+    def fnc_select_external_firm_name(self,external_firm_name_text):
+        external_firm_name = self.wait_for_element(self.external_firm_name_element, 'clickable')
+        external_firm_name.click()
+        external_firm_name_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in external_firm_name_elements:
+            if value.text == external_firm_name_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_enter_audit_contractor_name(self,audit_contractor_name_text):
+        audit_contractor_name_text_box=self.wait_for_element(self.audit_contractor_name_textbox_element,'clickable')
+        audit_contractor_name_text_box.send_keys(audit_contractor_name_text)
+        return True
+    def fnc_enter_external_auditor_name(self,external_auditor_name_text):
+        external_auditor_name_text_box=self.wait_for_element(self.internal_auditor_name_textbox_element, 'clickable')
+        external_auditor_name_text_box.send_keys(external_auditor_name_text)
+        return True
+    def fnc_search_input_user(self,user):
+        search_input=self.wait_for_element(self.search_panel_input,'clickable')
+        search_input.send_keys(user)
+        search_button=self.wait_for_element(self.search_button_element,'clickable')
+        search_button.click()
+        user_checkbox_button=self.wait_for_element(self.user_check_box,'clickable')
+        user_checkbox_button.click()
+        ok_button=self.wait_for_element(self.ok_button,'clickable')
+        ok_button.click()
+        return True
+    def fnc_select_external_audit_facilitator_filter_button(self,user):
+        filter_button=self.wait_for_element(self.external_audit_facilitator_filter_button,'clickable')
+        filter_button.click()
+        self.fnc_search_input_user(user)
+    # def fnc_enter_activity_scope(self,activity_scope_ea):
+    #     external_auditor = self.wait_for_element(self.internal_auditor_span_element, 'clickable')
+    #     self.driver.execute_script("arguments[0].scrollIntoView();", external_auditor)
+    #     activity_scope_text_box=self.wait_for_element(self.activity_scope_text_box_element,'clickable')
+    #     activity_scope_text_box.send_keys(activity_scope_ea)
+    #     return True
+    def fnc_attachment_button_click(self):
+        attachment_button = self.wait_for_element(self.attach_button, "clickable")
+        # self.driver.execute_script("arguments[0].scrollIntoView();", attachment_button)
+        self.driver.execute_script("arguments[0].click();", attachment_button)
+        return "Browse"
+    def click_save_and_continue(self):
+        save_and_continue_button_element = self.wait_for_element(self.save_and_continue_button, 'clickable')
+        save_and_continue_button_element.click()
+        return True
+    def fnc_browse_file(self, filepath):
+        time.sleep(2)
+        browse_button = self.wait_for_element(self.input_browse_button, "presence")
+        browse_button.send_keys(filepath)
+        time.sleep(2)
+        ok_button = self.wait_for_element(self.ok_button, "clickable")
+        ok_button.click()
+        return True
+    def fnc_click_set_date_of_external_audit_notice(self, year, month, day):
+        # activity_scope = self.wait_for_element(self.activity_scope_text_box_element, 'clickable')
+        # self.driver.execute_script("arguments[0].scrollIntoView();", activity_scope)
+        document_element = self.wait_for_element(self.date_of_external_audit_notice_calender_element, 'presence')
+        self.driver.execute_script("arguments[0].click();", document_element)
+        self.select_year_in_date_picker(year)
+        self.select_month_in_date_picker(month)
+        self.select_date_in_date_picker(day)
+        return True
+    def fnc_select_involve_functional_owner_radio_btn_element(self,status_text):
+        activate = self.wait_for_element(self.activate_span_element, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", activate)
+        if status_text=="Yes":
+            functional_owner = self.wait_for_element(self.involve_functional_owner_radio_btn, 'presence')
+            self.driver.execute_script("arguments[0].click();", functional_owner)
+        ok_button = self.wait_for_element(self.ok_button_after_save, 'clickable')
+        ok_button.click()
+    def fnc_select_functional_area_executive_owners_filter_button(self,user):
+        filter_button=self.wait_for_element(self.functional_area_executive_owners_filter_button,'clickable')
+        filter_button.click()
+        self.fnc_search_input_user(user)
+        self.driver.execute_script("window.scrollTo(0, -document.body.scrollHeight);")
+    def fnc_click_save_button_task(self):
+        save = self.wait_for_element(self.save_button_task_element, 'clickable')
+        save.click()
+        # time.sleep(10)
+        ok_button = self.wait_for_element(self.ok_button_after_save, 'clickable')
+        ok_button.click()
+        return True
+    def fnc_click_save_button(self):
+        save=self.wait_for_element(self.save_button_element,'clickable')
+        save.click()
+        # time.sleep(10)
+        ok_button=self.wait_for_element(self.ok_button_after_save,'clickable')
+        ok_button.click()
+        return True
+
+    def fnc_click_expand_button(self):
+        self.wait_for_element(self.expand_button, 'clickable')
+        time.sleep(3)
+        expand=self.wait_for_element(self.expand_button,'clickable')
+        expand.click()
+        time.sleep(1)
+        ok_button = self.wait_for_element(self.ok_button_after_save, 'clickable')
+        ok_button.click()
+        return True
+    def fnc_click_doc_submission_and_review_tab_element(self):
+        self.wait_for_element(self.doc_submission_and_review_tab_element, 'visibility')
+        time.sleep(1)
+        doc_submission_and_review=self.wait_for_element(self.doc_submission_and_review_tab_element,'clickable')
+        doc_submission_and_review.click()
+        ok_button = self.wait_for_element(self.ok_button_after_save, 'clickable')
+        ok_button.click()
+    def fnc_click_floater_button(self):
+        time.sleep(5)
+        self.wait_for_element(self.floater_button, 'clickable')
+        time.sleep(3)
+        floater=self.wait_for_element(self.floater_button,'clickable')
+        floater.click()
+        time.sleep(1)
+        return True
+    def fnc_click_task_menu(self):
+        self.wait_for_element(self.task_menu_element, 'clickable')
+        time.sleep(3)
+        task=self.wait_for_element(self.task_menu_element,'clickable')
+        task.click()
+        time.sleep(1)
+        return True
+    def fnc_click_expand_icon_task(self):
+        self.wait_for_element(self.expand_icon_task, 'clickable')
+        time.sleep(3)
+        task=self.wait_for_element(self.expand_icon_task,'clickable')
+        task.click()
+        time.sleep(1)
+        return True
+    def fnc_click_doc_submission_and_review_tab_task(self):
+        self.wait_for_element(self.doc_submission_and_review_tab_element, 'clickable')
+        time.sleep(3)
+        task=self.wait_for_element(self.doc_submission_and_review_tab_element,'clickable')
+        task.click()
+        time.sleep(1)
+        return True
+    def fnc_click_add_new_task_button(self):
+        self.wait_for_element(self.add_new_task_button, 'clickable')
+        time.sleep(3)
+        expand=self.wait_for_element(self.add_new_task_button,'clickable')
+        expand.click()
+        time.sleep(1)
+        return True
+    def fnc_click_initial_document_request_menu(self):
+        self.wait_for_element(self.initial_document_request_menu, 'clickable')
+        time.sleep(3)
+        initial_document_request=self.wait_for_element(self.initial_document_request_menu,'clickable')
+        initial_document_request.click()
+        time.sleep(1)
+        return True
+    def fnc_select_functional_area_task(self, functional_area_text):
+        functional_area = self.wait_for_element(self.functional_area_task_element, 'clickable')
+        functional_area.click()
+        functional_area_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in functional_area_elements:
+            if value.text == functional_area_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_assignee_filter_button(self,user):
+        filter_button=self.wait_for_element(self.asignee_filter_button,'clickable')
+        filter_button.click()
+        self.fnc_search_input_user(user)
+    def fnc_how_was_the_issue_identified(self,text_value):
+        text_area=self.wait_for_element(self.issue_identfied_text_area_element,'clickable')
+        text_area.send_keys(text_value)
+        return True
+    def fnc_search_issue_in_filter_dialog(self,issue_name):
+        time.sleep(3)
+        filter=self.wait_for_element(self.filter_button,'clickable')
+        filter.click()
+        issue_name_text=self.wait_for_element(self.issue_name_field_filter_dialog,'clickable')
+        issue_name_text.send_keys(issue_name)
+        go=self.wait_for_element(self.go_button_element,'clickable')
+        go.click()
+        issue_searched_text=self.wait_for_element(self.issue_name_from_list_element,'clickable')
+        issue_name=issue_searched_text.text
+        return issue_name
+    def fnc_click_toggle_button_and_assign(self,accept_or_not,user,condition_text,risk_text,attorney_text):
+        time.sleep(3)
+        toggle=self.wait_for_element(self.create_cap_toggle_button,'clickable')
+        toggle.click()
+        time.sleep(1)
+        assign_button=self.wait_for_element(self.assign_issue_span_button,'clickable')
+        assign_button.click()
+        time.sleep(2)
+        accept=self.wait_for_element(self.do_u_want_to_accept_issue_element,'clickable')
+        accept.click()
+        accept_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in accept_elements:
+            if value.text == accept_or_not:
+                value.click()
+                break
+        else:
+            return False
+        cap_team=self.wait_for_element(self.cap_team_element,'clickable')
+        cap_team.click()
+        self.fnc_search_cap_team(user)
+        time.sleep(1)
+        condition=self.wait_for_element(self.condition_dropdown_element,'clickable')
+        condition.click()
+        accept_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in accept_elements:
+            if value.text == condition_text:
+                value.click()
+                break
+        else:
+            return False
+        risk_level=self.wait_for_element(self.issue_risk_level_element,'clickable')
+        risk_level.click()
+        risk_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in risk_elements:
+            if value.text == risk_text:
+                value.click()
+                break
+        else:
+            return Exception
+        time.sleep(1)
+        if attorney_text == "Yes":
+            yes_element = self.wait_for_element(self.attorney_radio_yes_element, 'presence')
+            self.driver.execute_script("arguments[0].click();", yes_element)
+        else:
+            no_element = self.wait_for_element(self.attorney_radio_no_element, 'presence')
+            self.driver.execute_script("arguments[0].click();", no_element)
+        save=self.wait_for_element(self.save_button_assign_dialog_element,'clickable')
+        save.click()
+        return True
+    def fnc_get_text_from_assign(self):
+        time.sleep(3)
+        text_element=self.wait_for_element(self.assigned_text,'presence')
+        message=text_element.text
+        return message
+    def fnc_click_ok_button_after_save(self):
+        time.sleep(1)
+        ok_button = self.wait_for_element(self.ok_button_after_save, 'clickable')
+        ok_button.click()
+        time.sleep(5)
+    def find_cap_id(self,string):
+        pattern = r"\d{4}-CAP-\d+"
+        match = re.search(pattern, string)
+
+        if match:
+            return match.group()
+        else:
+            return None
+    def fnc_click_toggle_btn_save_create_cap(self):
+        time.sleep(2)
+        toggle = self.wait_for_element(self.create_cap_toggle_button, 'clickable')
+        toggle.click()
+        time.sleep(1)
+        save_create_cap_button = self.wait_for_element(self.save_create_cap_element, 'clickable')
+        save_create_cap_button.click()
+        save_btn=self.wait_for_element(self.save_button_assign_dialog_element,'clickable')
+        save_btn.click()
+        time.sleep(3)
+        text_element=self.wait_for_element(self.assigned_text,'visibility')
+        cap_id_string=text_element.text
+        cap_id=self.find_cap_id(cap_id_string)
+        self.fnc_click_ok_button_after_save()
+        return cap_id
+    def fnc_click_filter_button_search_cap(self,cap_Id_text):
+        filter = self.wait_for_element(self.filter_button, 'clickable')
+        filter.click()
+        time.sleep(5)
+        self.wait_for_element(self.cap_id_element,'visibility')
+        cap_id=self.wait_for_element(self.cap_id_element,'clickable')
+        cap_id.send_keys(cap_Id_text)
+        go = self.wait_for_element(self.go_button_element, 'clickable')
+        search_time_start=datetime.datetime.now()
+        go.click()
+        self.wait_for_element(self.showing_1_of_1_result_element,'visibility')
+        search_time_stop=datetime.datetime.now()
+        time_delta = search_time_stop - search_time_start
+        total_cap_search_time = str(int(time_delta.total_seconds() * 1000))
+        return total_cap_search_time
+    def fnc_exapnd_cap(self):
+        exapand=self.wait_for_element(self.expand_button_element,'clickable')
+        exapand.click()
+        time.sleep(10)
+    def fnc_do_you_want_to_activate_cap(self,activate_decision_text):
+        cap_due_date_element=self.wait_for_element(self.input_cap_due_date_element,'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", cap_due_date_element)
+        activate=self.wait_for_element(self.do_you_want_to_activate_cap_element,'clickable')
+        activate.click()
+        accept_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in accept_elements:
+            if value.text == activate_decision_text:
+                value.click()
+                break
+        else:
+            return False
+    def fnc_cap_workgroup_select(self,user):
+        workgroup=self.wait_for_element(self.cap_workgroup_filter_button,'clickable')
+        workgroup.click()
+        self.fnc_search_input_user(user)
+    def fnc_cap_details_save_button_click(self):
+        closure=self.wait_for_element(self.closure_cap_tab_element,'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", closure)
+        save_button=self.wait_for_element(self.cap_details_save_button_element,'clickable')
+        save_button.click()
+        time.sleep(2)
+        ok_button=self.wait_for_element(self.ok_button_after_save,'clickable')
+        ok_button.click()
+        return True
+    def fnc_click_issue_correction_tab_element(self):
+        self.wait_for_element(self.issue_correction_tab_element, 'visibility')
+        time.sleep(1)
+        issue_correction=self.wait_for_element(self.issue_correction_tab_element,'clickable')
+        issue_correction.click()
+    def fnc_select_status_radio_btn_element(self,status_text):
+        dd=self.wait_for_element(self.issue_correction_deliverable_document,'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", dd)
+        if status_text=="CAP In Progress":
+            cap_in_progress = self.wait_for_element(self.issue_correction_status_CAP_inProgress_radio_btn, 'presence')
+            self.driver.execute_script("arguments[0].click();", cap_in_progress)
+        elif status_text=="CAP Submitted":
+            cap_submitted = self.wait_for_element(self.issue_correction_status_CAP_submitted_radio_btn, 'presence')
+            self.driver.execute_script("arguments[0].click();", cap_submitted)
+        elif status_text == "CAP Deliverables Submitted":
+            cap_deliverables=self.wait_for_element(self.issue_correction_status_CAP_deliverables_submitted_radio_btn,'presence')
+            self.driver.execute_script("arguments[0].click();", cap_deliverables)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import datetime
+import time
+
+from pages.basepage import BasePage
+from selenium.webdriver.common.by import By
+import re
+
+
+class IA_Page(BasePage):
+    ia_tiles_click_element = By.XPATH, "//h4[contains(text(),'Internal Audit')]"
+    ia_statistics_element= By.XPATH, "(//span[contains(text(),' Internal Audit Statistics ')])[1]"
+    ia_audit_library= By.XPATH, "//li[@id='auditBox']"
+    add_audit_button= By.XPATH,"//span[contains(text(),'Add')]"
+    activity_type_span_element= By.XPATH, "(//font[contains(text(),'Activity Type')])[1]"
+    activity_type_element = By.XPATH, "//ng-multiselect-dropdown[@id='activityType']"
+    reference_to_parent_radio_btn = By.XPATH, "(//input[@id='referenceToParent'])[1]"
+    reference_to_audit_span_element = By.XPATH, "(//h3[contains(text(),'Reference to Audit')])[1]"
+    component_responsibilities_text_boxelement = By.XPATH, "//textarea[@id='componentResponsibilities']"
+    functional_area_span_element = By.XPATH, "(//font[contains(text(),'Functional Area')])[2]"
+    functional_area_element = By.XPATH, "//ng-multiselect-dropdown[@id='subProcess']"
+    sub_functional_area_element = By.XPATH, "//ng-multiselect-dropdown[@id='subFunctionalArea']"
+    sub_functional_area_span_element = By.XPATH, "(//font[contains(text(),'Sub Functional Area')])[1]"
+    state_span_element = By.XPATH, "(//font[contains(text(),'State')])[2]"
+    state_multiselect_dropdown = By.XPATH, "//ng-multiselect-dropdown[@id='stateOrDept']"
+    plan_type_span_element = By.XPATH, "(//font[contains(text(),'Plan Type')])[1]"
+    plan_type_element = By.XPATH, "//ng-multiselect-dropdown[@id='planType']"
+    line_of_business_element = By.XPATH, "//ng-multiselect-dropdown[@id='LOBorDepts']"
+    contract_select_element = By.XPATH, "//ng-multiselect-dropdown[@id='contracts']"
+    audit_type_select_element = By.XPATH, "//ng-multiselect-dropdown[@id='caseType']"
+    initial_audit_risk_level_span_element = By.XPATH, "(//font[contains(text(),'Initial Audit Risk Level')])[2]"
+    initial_audit_risk_level_select_element = By.XPATH, "//ng-multiselect-dropdown[@id='severity']"
+    activity_rationale_text_boxelement = By.XPATH, "//textarea[@id='auditRationale']"
+    activity_frequency_span_element= By.XPATH, "(//font[contains(text(),'Activity Frequency')])[1]"
+    activity_frequency_element = By.XPATH, "//ng-multiselect-dropdown[@id='auditFrequency']"
+    activity_start_date_calender_element = By.XPATH, "(//i[@class='fa fa-calendar'])[3]/.."
+    review_period_start_date_calender_element = By.XPATH, "(//i[@class='fa fa-calendar'])[7]/.."
+    review_period_end_date_calender_element = By.XPATH, "(//i[@class='fa fa-calendar'])[8]/.."
+    add_contracts_span_element = By.XPATH, "(//span[contains(text(),'Add Contracts')])[1]"
+    activity_description_text_box_element = By.XPATH, "//textarea[@id='purpose']"
+    compliance_or_fwa_span_element = By.XPATH, "//font[text()='Compliance or FWA?']"
+    compliance_or_fwa_radio_btn = By.XPATH, "(//input[@id='processHierarchy'])[1]"
+    activate_radio_btn = By.XPATH, "(//input[@id='isActiveProcess'])[1]"
+    activate_span_element = By.XPATH, "//font[text()='Activate']"
+    assign_to_compliance_manager_filter_button = By.XPATH, "//div/a[@id='issueCorrectionAssignedToComplianceManager_filterbtn']"
+    expand_button = By.XPATH, "(//button[contains(text(),'Expand ')])[1]"
+    doc_submission_and_review_tab_element = By.XPATH, "(//*[contains(text(),'Doc Submission and Review')])[1]"
+    floater_button = By.XPATH, "//li[@id='kt_demo_panel_toggle']"
+    task_menu_element = By.XPATH, "//a[@id='externalAuditTaskLibraryMenu']"
+    add_new_task_button = By.XPATH, "(//button[contains(text(),'ADD NEW TASK')])[1]"
+    initial_document_request_menu = By.XPATH, "(//button[contains(text(),'Initial Document Request')])[1]"
+    functional_area_task_element = By.XPATH, "(//ng-multiselect-dropdown[@id='subProcess'])[3]"
+    asignee_filter_button = By.XPATH, "//div/a[@id='taskAssignee_filterbtn']"
+    save_button_task_element = By.XPATH, "//button[contains(text(),'Save')]"
+    save_button_element = By.XPATH, "//span[contains(text(),'Save')]"
+    ok_button_after_save = By.XPATH, "//button[contains(text(),'OK')]"
+    expand_icon_task = By.XPATH, "//button[@title='Expand']/i"
+    save_and_submit_button_element = By.XPATH, "//span[contains(text(),'Save & Submit')]"
+
+
+
+
+    # issuedescriptiontextelement=By.XPATH,"//textarea[@id='issueDesc']"
+    # issuecategoryelement=By.XPATH,"(//input[@id='issueCategory'])[1]"
+    # issue_reporter_filter_button=By.XPATH,"//a[@id='issueReporter_filterbtn']"
+    search_panel_input=By.XPATH,"//*[@id='search-panel']/div/form/div[1]/div[2]/div/input"
+    search_button_element=By.XPATH,"//button[contains(text(),'Search')]"
+    user_check_box=By.XPATH,"/html[1]/body[1]/ngb-modal-window[1]/div[1]/div[1]/pzeon-bundle-filter-modal[1]/div[2]/ngb-accordion[1]/div[2]/div[2]/div[1]/div[2]/perfect-scrollbar[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]"
+    ok_button=By.XPATH,"//button[contains(text(),'Ok')]"
+    ia_team_checkbox= By.XPATH, "//*[@class='mat-checkbox mat-accent']"
+    filter_button=By.XPATH,"//div[@id='kt_page_portlet']/div/div[2]"
+    notification_area_element=By.XPATH,"//ng-multiselect-dropdown[@id='notificationArea']"
+    drop_down_list_element=By.XPATH,"//div[@class='dropdown']/div/.//div"
+    dropup_elements = By.XPATH, "//div[@class='dropup']/div/.//div"
+    issue_category_risk_button=By.XPATH,"(//input[@id='issueCategory'])[1]"
+    issue_category_CAP_button=By.XPATH,"(//input[@id='issueCategory'])[2]"
+    implication_dropdown_element=By.XPATH,"//ng-multiselect-dropdown[@id='implications']"
+
+    # regulatory_requirement_element=By.XPATH,"//input[@id='regulatoryRequirement']"
+    # issue_identfied_text_area_element=By.XPATH,"//textarea[@id='issueIdentified']"
+    # issue_closed_span_element=By.XPATH,"// span[ @ title = 'ISSUE(S) CLOSED']"
+    external_firm_name_element=By.XPATH, "//ng-multiselect-dropdown[@id='externalFirmName']"
+    audit_contractor_name_textbox_element=By.XPATH, "//input[@id='auditContractorName']"
+    internal_auditor_span_element = By.XPATH, "(//font[contains(text(),'External Auditor Name')])[1]"
+    internal_auditor_name_textbox_element = By.XPATH, "//input[@id='externalAuditorName']"
+    external_audit_facilitator_filter_button = By.XPATH, "//div/a[@id='externalAuditFacilitator_filterbtn']"
+    # activity_start_date_label_element = By.XPATH, "//font[contains(text(),'Activity Start Date')]"
+    upload_audit_notice_span_element = By.XPATH, "//font[text()='Upload Audit Notice']"
+    attach_button = By.XPATH, "//button[@class='btn btn-outline-secondary']/i[contains(text(),'attach_file')]"
+    input_browse_button = By.XPATH, "//input[@id='getFile']"
+    save_and_continue_button = By.XPATH, "//button[contains(text(),'Save & Continue')]"
+    date_of_external_audit_notice_calender_element = By.XPATH, "(//i[@class='fa fa-calendar'])[3]/.."
+    involve_functional_owner_radio_btn = By.XPATH, "(//input[@id='wantToInvolveFO'])[1]"
+    functional_area_executive_owners_filter_button = By.XPATH, "//div/a[@id='executiveOwnerName_filterbtn']"
+
+
+    issue_name_field_filter_dialog=By.XPATH,"(//input[@id='issueName'])[2]"
+    go_button_element=By.XPATH,"//button[contains(text(),'Go')]"
+    notification_details=By.XPATH,"//h3[contains(text(),' NOTIFICATION DETAILS ')]"
+    issue_name_from_list_element=By.XPATH,"(//span[contains(text(),'Issue Name: ')]/following-sibling::*//span)[1]"
+    create_cap_toggle_button=By.XPATH,"(//button[@id='undefined']/following-sibling::*)[1]"
+    assign_issue_span_button=By.XPATH,"//span[contains(text(),'Assign Issue')]"
+    do_u_want_to_accept_issue_element=By.XPATH,"(//div[@id='isValidIssue'])[2]"
+    cap_team_element=By.XPATH,"//a[@id='capAnalystModal_filterbtn']"
+    condition_dropdown_element=By.XPATH,"//ng-multiselect-dropdown[@id='conditionModal']"
+    issue_risk_level_element=By.XPATH,"//div[@id='issueRiskLvlModal']"
+    attorney_radio_element=By.XPATH,"//div[@class='kt-radio-inline']/div/.//label"
+    save_button_assign_dialog_element=By.XPATH,"//button[contains(text(),'SAVE')]"
+    assigned_text=By.XPATH,"//div[@id='swal2-content']"
+    save_create_cap_element=By.XPATH,"//span[contains(text(),'Save & Create CAP')]"
+    attorney_radio_yes_element=By.XPATH,"(//input[@id='attorneyClientPrivilegeModal'])[1]"
+    attorney_radio_no_element = By.XPATH,"(//input[@id='attorneyClientPrivilegeModal'])[2]"
+    home_button_element=By.XPATH,"(//img[@src='./assets/media/logos/logo.png'])[2]"
+    cap_id_element=By.XPATH,"//input[@id='cap_Id']"
+    showing_1_of_1_result_element=By.XPATH,"// h3[contains(text(), 'Showing 1 of 1 results')]"
+    expand_button_element=By.XPATH,"//*[contains(text(),'Expand')]"
+    do_you_want_to_activate_cap_element=By.XPATH,"//ng-multiselect-dropdown[@id='isActiveProcess']"
+    cap_workgroup_filter_button=By.XPATH,"//*[@id='issueCorrectionAssignedToUsers_filterbtn']"
+    cap_details_save_button_element=By.XPATH,"//button[@id='save_fullbox_button']"
+    closure_cap_tab_element=By.XPATH,"//*[contains(text(),' Closure ')]"
+    input_cap_due_date_element=By.XPATH,"//input[@id='CAPDueDate']"
+    # issue_correction_tab_element=By.XPATH,"//*[contains(text(),'Issue Correction')]"
+    issue_correction_deliverable_document=By.XPATH,"//input[@id='IC_issueDocumentContainer']"
+    issue_correction_status_CAP_submitted_radio_btn=By.XPATH,"(//input[@id='subProcessStatus'])[2]"
+    issue_correction_status_CAP_deliverables_submitted_radio_btn=By.XPATH,"(//input[@id='subProcessStatus'])[3]"
+
+
+
+    def fnc_click_home_button(self):
+        home=self.wait_for_element(self.home_button_element,"clickable")
+        home.click()
+        return True
+    def fnc_click_external_audit_link(self):
+        time.sleep(3)
+        cap_element = self.wait_for_element(self.ia_tiles_click_element, 'clickable')
+        cap_start_time = datetime.datetime.now()
+        cap_element.click()
+        cap_stats=self.wait_for_element(self.ia_statistics_element, 'clickable')
+        cap_stop_time=datetime.datetime.now()
+        time_delta=cap_stop_time-cap_start_time
+        total_cap_loading_time=str(int(time_delta.total_seconds() * 1000))
+        return total_cap_loading_time
+    def fnc_click_external_audit_library(self):
+        cap_issue_library_element = self.wait_for_element(self.ia_audit_library, 'clickable')
+        time.sleep(2)
+        cap_start_time = datetime.datetime.now()
+        cap_issue_library_element.click()
+        issue_add_button = self.wait_for_element(self.add_audit_button, 'clickable')
+        cap_stop_time = datetime.datetime.now()
+        time_delta = cap_stop_time - cap_start_time
+        total_cap_loading_time = str(int(time_delta.total_seconds() * 1000))
+        return total_cap_loading_time
+    def fnc_click_add_button(self):
+        self.wait_for_element(self.add_audit_button, 'clickable')
+        time.sleep(3)
+        add=self.wait_for_element(self.add_audit_button,'clickable')
+        add.click()
+        time.sleep(1)
+        return True
+    def fnc_select_activity_type(self, activity_type_text):
+        activity_type_span = self.wait_for_element(self.activity_type_span_element, 'clickable')
+        activity_type_span.click()
+        activity_type_area = self.wait_for_element(self.activity_type_element, 'clickable')
+        activity_type_area.click()
+        activity_type_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in activity_type_elements:
+            if value.text == activity_type_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_reference_to_parent(self,status_text):
+        if status_text=="Yes":
+            reference_to_parent=self.wait_for_element(self.reference_to_parent_radio_btn, 'presence')
+            self.driver.execute_script("arguments[0].click();", reference_to_parent)
+    def fnc_select_functional_area(self, functional_area_text):
+        reference_to_audit = self.wait_for_element(self.reference_to_audit_span_element, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", reference_to_audit)
+        # functional_span = self.wait_for_element(self.functional_area_span_element, 'clickable')
+        # functional_span.click()
+        functional_area = self.wait_for_element(self.functional_area_element, 'clickable')
+        functional_area.click()
+        functional_area_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in functional_area_elements:
+            if value.text == functional_area_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_enter_component_responsibilities(self,activity_name_ea):
+        activity_name_text_box=self.wait_for_element(self.component_responsibilities_text_boxelement,'clickable')
+        activity_name_text_box.send_keys(activity_name_ea)
+        return True
+    def fnc_select_audit_type(self,audit_type_text):
+        audit_type = self.wait_for_element(self.audit_type_select_element, 'clickable')
+        audit_type.click()
+        audit_type_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in audit_type_elements:
+            if value.text == audit_type_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_Initial_audit_risk_level(self,risk_level_text):
+        state = self.wait_for_element(self.state_span_element, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", state)
+        risk_level = self.wait_for_element(self.initial_audit_risk_level_select_element, 'clickable')
+        risk_level.click()
+        risk_level_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in risk_level_elements:
+            if value.text == risk_level_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_enter_activity_rationale(self,activity_name_ea):
+        activity_name_text_box=self.wait_for_element(self.activity_rationale_text_boxelement,'clickable')
+        activity_name_text_box.send_keys(activity_name_ea)
+        return True
+    '''def fnc_enter_issue_description(self,issue_description):
+        issue_name_text_box = self.wait_for_element(self.issuecategoryelement, 'presence')
+        self.driver.execute_script("arguments[0].scrollIntoView();", issue_name_text_box)
+        issue_description_text_box=self.wait_for_element(self.issuedescriptiontextelement,'clickable')
+        issue_description_text_box.send_keys(issue_description)
+        return True'''
+    '''def fnc_select_issue_category(self,category):
+        scroll_element = self.wait_for_element(self.issuedescriptiontextelement, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", scroll_element)
+        time.sleep(1)
+        if category =='RISK':
+            risk_element=self.wait_for_element(self.issue_category_risk_button,'visibility')
+            self.driver.execute_script("arguments[0].click();", risk_element)
+        else:
+            cap_element=self.wait_for_element(self.issue_category_CAP_button,'visibility')
+            self.driver.execute_script("arguments[0].click();", cap_element)'''
+    '''
+        def fnc_click_issue_reporter_filter_button(self):
+        filter_button_element=self.wait_for_element(self.issue_reporter_filter_button,'clickable')
+        filter_button_element.click()
+        return True
+    '''
+    '''def fnc_search_cap_team(self,user):
+        search_input = self.wait_for_element(self.search_panel_input, 'clickable')
+        search_input.send_keys(user)
+        search_button = self.wait_for_element(self.search_button_element, 'clickable')
+        search_button.click()
+        user_checkbox_button = self.wait_for_element(self.ea_team_checkbox, 'clickable')
+        user_checkbox_button.click()
+        ok_button = self.wait_for_element(self.ok_button, 'clickable')
+        ok_button.click()
+        return True'''
+    def fnc_select_multiselect_dropdown(self,dropdown_elements,dropdown_value):
+        for value in dropdown_elements:
+            if value.text == dropdown_value:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    '''def fnc_select_notification_area(self,notification_area_text):
+        # issue_reporter=self.wait_for_element(self.issuedescriptiontextelement,'clickable')
+        # self.driver.execute_script("arguments[0].scrollIntoView();", issue_reporter)
+        time.sleep(2)
+        notification_area=self.wait_for_element(self.notification_area_element,'clickable')
+        notification_area.click()
+        notification_area_values=self.wait_for_elements(self.drop_down_list_element,'visibility')
+        for value in notification_area_values:
+            if value.text == notification_area_text:
+                value.click()
+                break
+        else:
+            return False
+        return True'''
+    '''def fnc_select_Implications(self,implication_text):
+        implication_element=self.wait_for_element(self.implication_dropdown_element,'clickable')
+        implication_element.click()
+        implication_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in implication_elements:
+            if value.text == implication_text:
+                value.click()
+                break
+        else:
+            return False
+        return True'''
+    def click_save_and_submit(self):
+        save_and_continue_button_element = self.wait_for_element(self.save_n_submit_button_element, 'clickable')
+        save_and_continue_button_element.click()
+        return True
+    def fnc_select_sub_functional_area(self,sub_functional):
+        sub_functional_span = self.wait_for_element(self.sub_functional_area_span_element, 'clickable')
+        sub_functional_span.click()
+        sub_functional_area = self.wait_for_element(self.sub_functional_area_element, 'clickable')
+        sub_functional_area.click()
+        sub_functional_area_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in sub_functional_area_elements:
+            if value.text == sub_functional:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_state(self, state):
+        functional_area = self.wait_for_element(self.functional_area_span_element, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", functional_area)
+        state_span = self.wait_for_element(self.state_span_element, 'clickable')
+        state_span.click()
+        state_element = self.wait_for_element(self.state_multiselect_dropdown, 'clickable')
+        state_element.click()
+        state_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in state_elements:
+            if value.text == state:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_plantype(self,plan_type):
+        plan_type_span = self.wait_for_element(self.plan_type_span_element, 'clickable')
+        plan_type_span.click()
+        plan = self.wait_for_element(self.plan_type_element, 'clickable')
+        plan.click()
+        plan_type_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in plan_type_elements:
+            if value.text == plan_type:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_Lob(self, lob):
+        lob_element = self.wait_for_element(self.line_of_business_element, 'clickable')
+        lob_element.click()
+        lob_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in lob_elements:
+            if value.text == lob:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_contract(self,contract_text):
+        state = self.wait_for_element(self.state_multiselect_dropdown, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", state)
+        contract = self.wait_for_element(self.contract_select_element, 'clickable')
+        contract.click()
+        contract_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in contract_elements:
+            if value.text == contract_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_activity_frequency(self, activity_frequency_text):
+        activity_frequency_span = self.wait_for_element(self.activity_frequency_span_element, 'clickable')
+        activity_frequency_span.click()
+        activity_frequency = self.wait_for_element(self.activity_frequency_element, 'clickable')
+        activity_frequency.click()
+        activity_frequency_elements = self.wait_for_elements(self.dropup_elements, 'visibility')
+        for value in activity_frequency_elements:
+            if value.text == activity_frequency_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_click_set_activity_start_date(self, year, month, day):
+        initial_audit_risk_level = self.wait_for_element(self.initial_audit_risk_level_span_element, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", initial_audit_risk_level)
+        document_element = self.wait_for_element(self.activity_start_date_calender_element, 'presence')
+        self.driver.execute_script("arguments[0].click();", document_element)
+        self.select_year_in_date_picker(year)
+        self.select_month_in_date_picker(month)
+        self.select_date_in_date_picker(day)
+        return True
+    def fnc_click_set_review_period_start_date(self, year, month, day):
+        # activity_scope = self.wait_for_element(self.activity_scope_text_box_element, 'clickable')
+        # self.driver.execute_script("arguments[0].scrollIntoView();", activity_scope)
+        document_element = self.wait_for_element(self.review_period_start_date_calender_element, 'presence')
+        self.driver.execute_script("arguments[0].click();", document_element)
+        self.select_year_in_date_picker(year)
+        self.select_month_in_date_picker(month)
+        self.select_date_in_date_picker(day)
+        return True
+    def fnc_click_set_review_period_end_date(self, year, month, day):
+        document_element = self.wait_for_element(self.review_period_end_date_calender_element, 'presence')
+        self.driver.execute_script("arguments[0].click();", document_element)
+        self.select_year_in_date_picker(year)
+        self.select_month_in_date_picker(month)
+        self.select_date_in_date_picker(day)
+        return True
+    def fnc_enter_activity_description(self,activity_description_ea):
+        activity_description_text_box=self.wait_for_element(self.activity_description_text_box_element,'clickable')
+        activity_description_text_box.send_keys(activity_description_ea)
+        return True
+    def fnc_select_compliance_or_fwa_radio_btn_element(self,status_text):
+        add_contracts = self.wait_for_element(self.add_contracts_span_element, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", add_contracts)
+        if status_text=="Yes":
+            compliance_or_fwa = self.wait_for_element(self.compliance_or_fwa_radio_btn, 'presence')
+            self.driver.execute_script("arguments[0].click();", compliance_or_fwa)
+    def fnc_select_activate_radio_btn_element(self,status_text):
+        activate_span = self.wait_for_element(self.activate_span_element, 'presence')
+        self.driver.execute_script("arguments[0].click();", activate_span)
+        if status_text=="Yes":
+            activate = self.wait_for_element(self.activate_radio_btn, 'presence')
+            self.driver.execute_script("arguments[0].click();", activate)
+        # ok_button = self.wait_for_element(self.ok_button_after_save, 'clickable')
+        # ok_button.click()
+    def fnc_select_assign_to_compliance_manager_filter_button(self,user):
+        compliance_or_fwa = self.wait_for_element(self.compliance_or_fwa_span_element, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", compliance_or_fwa)
+        filter_button=self.wait_for_element(self.assign_to_compliance_manager_filter_button,'clickable')
+        filter_button.click()
+        self.fnc_search_input_user(user)
+    def fnc_click_save_and_submit(self):
+        save_and_submit = self.wait_for_element(self.save_and_submit_button_element, 'clickable')
+        save_and_submit.click()
+        return True
+    def fnc_select_external_firm_name(self,external_firm_name_text):
+        external_firm_name = self.wait_for_element(self.external_firm_name_element, 'clickable')
+        external_firm_name.click()
+        external_firm_name_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in external_firm_name_elements:
+            if value.text == external_firm_name_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_enter_audit_contractor_name(self,audit_contractor_name_text):
+        audit_contractor_name_text_box=self.wait_for_element(self.audit_contractor_name_textbox_element,'clickable')
+        audit_contractor_name_text_box.send_keys(audit_contractor_name_text)
+        return True
+    def fnc_enter_external_auditor_name(self,external_auditor_name_text):
+        external_auditor_name_text_box=self.wait_for_element(self.internal_auditor_name_textbox_element, 'clickable')
+        external_auditor_name_text_box.send_keys(external_auditor_name_text)
+        return True
+    def fnc_search_input_user(self,user):
+        search_input=self.wait_for_element(self.search_panel_input,'clickable')
+        search_input.send_keys(user)
+        search_button=self.wait_for_element(self.search_button_element,'clickable')
+        search_button.click()
+        user_checkbox_button=self.wait_for_element(self.user_check_box,'clickable')
+        user_checkbox_button.click()
+        ok_button=self.wait_for_element(self.ok_button,'clickable')
+        ok_button.click()
+        return True
+    def fnc_select_external_audit_facilitator_filter_button(self,user):
+        filter_button=self.wait_for_element(self.external_audit_facilitator_filter_button,'clickable')
+        filter_button.click()
+        self.fnc_search_input_user(user)
+    # def fnc_enter_activity_scope(self,activity_scope_ea):
+    #     external_auditor = self.wait_for_element(self.internal_auditor_span_element, 'clickable')
+    #     self.driver.execute_script("arguments[0].scrollIntoView();", external_auditor)
+    #     activity_scope_text_box=self.wait_for_element(self.activity_scope_text_box_element,'clickable')
+    #     activity_scope_text_box.send_keys(activity_scope_ea)
+    #     return True
+    def fnc_attachment_button_click(self):
+        attachment_button = self.wait_for_element(self.attach_button, "clickable")
+        # self.driver.execute_script("arguments[0].scrollIntoView();", attachment_button)
+        self.driver.execute_script("arguments[0].click();", attachment_button)
+        return "Browse"
+    def click_save_and_continue(self):
+        save_and_continue_button_element = self.wait_for_element(self.save_and_continue_button, 'clickable')
+        save_and_continue_button_element.click()
+        return True
+    def fnc_browse_file(self, filepath):
+        time.sleep(2)
+        browse_button = self.wait_for_element(self.input_browse_button, "presence")
+        browse_button.send_keys(filepath)
+        time.sleep(2)
+        ok_button = self.wait_for_element(self.ok_button, "clickable")
+        ok_button.click()
+        return True
+    def fnc_click_set_date_of_external_audit_notice(self, year, month, day):
+        # activity_scope = self.wait_for_element(self.activity_scope_text_box_element, 'clickable')
+        # self.driver.execute_script("arguments[0].scrollIntoView();", activity_scope)
+        document_element = self.wait_for_element(self.date_of_external_audit_notice_calender_element, 'presence')
+        self.driver.execute_script("arguments[0].click();", document_element)
+        self.select_year_in_date_picker(year)
+        self.select_month_in_date_picker(month)
+        self.select_date_in_date_picker(day)
+        return True
+    def fnc_select_involve_functional_owner_radio_btn_element(self,status_text):
+        activate = self.wait_for_element(self.activate_span_element, 'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", activate)
+        if status_text=="Yes":
+            functional_owner = self.wait_for_element(self.involve_functional_owner_radio_btn, 'presence')
+            self.driver.execute_script("arguments[0].click();", functional_owner)
+        ok_button = self.wait_for_element(self.ok_button_after_save, 'clickable')
+        ok_button.click()
+    def fnc_select_functional_area_executive_owners_filter_button(self,user):
+        filter_button=self.wait_for_element(self.functional_area_executive_owners_filter_button,'clickable')
+        filter_button.click()
+        self.fnc_search_input_user(user)
+        self.driver.execute_script("window.scrollTo(0, -document.body.scrollHeight);")
+    def fnc_click_save_button_task(self):
+        save = self.wait_for_element(self.save_button_task_element, 'clickable')
+        save.click()
+        # time.sleep(10)
+        ok_button = self.wait_for_element(self.ok_button_after_save, 'clickable')
+        ok_button.click()
+        return True
+    def fnc_click_save_button(self):
+        save=self.wait_for_element(self.save_button_element,'clickable')
+        save.click()
+        # time.sleep(10)
+        ok_button=self.wait_for_element(self.ok_button_after_save,'clickable')
+        ok_button.click()
+        return True
+
+    def fnc_click_expand_button(self):
+        self.wait_for_element(self.expand_button, 'clickable')
+        time.sleep(3)
+        expand=self.wait_for_element(self.expand_button,'clickable')
+        expand.click()
+        time.sleep(1)
+        ok_button = self.wait_for_element(self.ok_button_after_save, 'clickable')
+        ok_button.click()
+        return True
+    def fnc_click_doc_submission_and_review_tab_element(self):
+        self.wait_for_element(self.doc_submission_and_review_tab_element, 'visibility')
+        time.sleep(1)
+        doc_submission_and_review=self.wait_for_element(self.doc_submission_and_review_tab_element,'clickable')
+        doc_submission_and_review.click()
+        ok_button = self.wait_for_element(self.ok_button_after_save, 'clickable')
+        ok_button.click()
+    def fnc_click_floater_button(self):
+        time.sleep(5)
+        self.wait_for_element(self.floater_button, 'clickable')
+        time.sleep(3)
+        floater=self.wait_for_element(self.floater_button,'clickable')
+        floater.click()
+        time.sleep(1)
+        return True
+    def fnc_click_task_menu(self):
+        self.wait_for_element(self.task_menu_element, 'clickable')
+        time.sleep(3)
+        task=self.wait_for_element(self.task_menu_element,'clickable')
+        task.click()
+        time.sleep(1)
+        return True
+    def fnc_click_expand_icon_task(self):
+        self.wait_for_element(self.expand_icon_task, 'clickable')
+        time.sleep(3)
+        task=self.wait_for_element(self.expand_icon_task,'clickable')
+        task.click()
+        time.sleep(1)
+        return True
+    def fnc_click_doc_submission_and_review_tab_task(self):
+        self.wait_for_element(self.doc_submission_and_review_tab_element, 'clickable')
+        time.sleep(3)
+        task=self.wait_for_element(self.doc_submission_and_review_tab_element,'clickable')
+        task.click()
+        time.sleep(1)
+        return True
+    def fnc_click_add_new_task_button(self):
+        self.wait_for_element(self.add_new_task_button, 'clickable')
+        time.sleep(3)
+        expand=self.wait_for_element(self.add_new_task_button,'clickable')
+        expand.click()
+        time.sleep(1)
+        return True
+    def fnc_click_initial_document_request_menu(self):
+        self.wait_for_element(self.initial_document_request_menu, 'clickable')
+        time.sleep(3)
+        initial_document_request=self.wait_for_element(self.initial_document_request_menu,'clickable')
+        initial_document_request.click()
+        time.sleep(1)
+        return True
+    def fnc_select_functional_area_task(self, functional_area_text):
+        functional_area = self.wait_for_element(self.functional_area_task_element, 'clickable')
+        functional_area.click()
+        functional_area_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in functional_area_elements:
+            if value.text == functional_area_text:
+                value.click()
+                break
+        else:
+            return False
+        return True
+    def fnc_select_assignee_filter_button(self,user):
+        filter_button=self.wait_for_element(self.asignee_filter_button,'clickable')
+        filter_button.click()
+        self.fnc_search_input_user(user)
+    def fnc_how_was_the_issue_identified(self,text_value):
+        text_area=self.wait_for_element(self.issue_identfied_text_area_element,'clickable')
+        text_area.send_keys(text_value)
+        return True
+    def fnc_search_issue_in_filter_dialog(self,issue_name):
+        time.sleep(3)
+        filter=self.wait_for_element(self.filter_button,'clickable')
+        filter.click()
+        issue_name_text=self.wait_for_element(self.issue_name_field_filter_dialog,'clickable')
+        issue_name_text.send_keys(issue_name)
+        go=self.wait_for_element(self.go_button_element,'clickable')
+        go.click()
+        issue_searched_text=self.wait_for_element(self.issue_name_from_list_element,'clickable')
+        issue_name=issue_searched_text.text
+        return issue_name
+    def fnc_click_toggle_button_and_assign(self,accept_or_not,user,condition_text,risk_text,attorney_text):
+        time.sleep(3)
+        toggle=self.wait_for_element(self.create_cap_toggle_button,'clickable')
+        toggle.click()
+        time.sleep(1)
+        assign_button=self.wait_for_element(self.assign_issue_span_button,'clickable')
+        assign_button.click()
+        time.sleep(2)
+        accept=self.wait_for_element(self.do_u_want_to_accept_issue_element,'clickable')
+        accept.click()
+        accept_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in accept_elements:
+            if value.text == accept_or_not:
+                value.click()
+                break
+        else:
+            return False
+        cap_team=self.wait_for_element(self.cap_team_element,'clickable')
+        cap_team.click()
+        self.fnc_search_cap_team(user)
+        time.sleep(1)
+        condition=self.wait_for_element(self.condition_dropdown_element,'clickable')
+        condition.click()
+        accept_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in accept_elements:
+            if value.text == condition_text:
+                value.click()
+                break
+        else:
+            return False
+        risk_level=self.wait_for_element(self.issue_risk_level_element,'clickable')
+        risk_level.click()
+        risk_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in risk_elements:
+            if value.text == risk_text:
+                value.click()
+                break
+        else:
+            return Exception
+        time.sleep(1)
+        if attorney_text == "Yes":
+            yes_element = self.wait_for_element(self.attorney_radio_yes_element, 'presence')
+            self.driver.execute_script("arguments[0].click();", yes_element)
+        else:
+            no_element = self.wait_for_element(self.attorney_radio_no_element, 'presence')
+            self.driver.execute_script("arguments[0].click();", no_element)
+        save=self.wait_for_element(self.save_button_assign_dialog_element,'clickable')
+        save.click()
+        return True
+    def fnc_get_text_from_assign(self):
+        time.sleep(3)
+        text_element=self.wait_for_element(self.assigned_text,'presence')
+        message=text_element.text
+        return message
+    def fnc_click_ok_button_after_save(self):
+        time.sleep(1)
+        ok_button = self.wait_for_element(self.ok_button_after_save, 'clickable')
+        ok_button.click()
+        time.sleep(5)
+    def find_cap_id(self,string):
+        pattern = r"\d{4}-CAP-\d+"
+        match = re.search(pattern, string)
+
+        if match:
+            return match.group()
+        else:
+            return None
+    def fnc_click_toggle_btn_save_create_cap(self):
+        time.sleep(2)
+        toggle = self.wait_for_element(self.create_cap_toggle_button, 'clickable')
+        toggle.click()
+        time.sleep(1)
+        save_create_cap_button = self.wait_for_element(self.save_create_cap_element, 'clickable')
+        save_create_cap_button.click()
+        save_btn=self.wait_for_element(self.save_button_assign_dialog_element,'clickable')
+        save_btn.click()
+        time.sleep(3)
+        text_element=self.wait_for_element(self.assigned_text,'visibility')
+        cap_id_string=text_element.text
+        cap_id=self.find_cap_id(cap_id_string)
+        self.fnc_click_ok_button_after_save()
+        return cap_id
+    def fnc_click_filter_button_search_cap(self,cap_Id_text):
+        filter = self.wait_for_element(self.filter_button, 'clickable')
+        filter.click()
+        time.sleep(5)
+        self.wait_for_element(self.cap_id_element,'visibility')
+        cap_id=self.wait_for_element(self.cap_id_element,'clickable')
+        cap_id.send_keys(cap_Id_text)
+        go = self.wait_for_element(self.go_button_element, 'clickable')
+        search_time_start=datetime.datetime.now()
+        go.click()
+        self.wait_for_element(self.showing_1_of_1_result_element,'visibility')
+        search_time_stop=datetime.datetime.now()
+        time_delta = search_time_stop - search_time_start
+        total_cap_search_time = str(int(time_delta.total_seconds() * 1000))
+        return total_cap_search_time
+    def fnc_exapnd_cap(self):
+        exapand=self.wait_for_element(self.expand_button_element,'clickable')
+        exapand.click()
+        time.sleep(10)
+    def fnc_do_you_want_to_activate_cap(self,activate_decision_text):
+        cap_due_date_element=self.wait_for_element(self.input_cap_due_date_element,'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", cap_due_date_element)
+        activate=self.wait_for_element(self.do_you_want_to_activate_cap_element,'clickable')
+        activate.click()
+        accept_elements = self.wait_for_elements(self.drop_down_list_element, 'visibility')
+        for value in accept_elements:
+            if value.text == activate_decision_text:
+                value.click()
+                break
+        else:
+            return False
+    def fnc_cap_workgroup_select(self,user):
+        workgroup=self.wait_for_element(self.cap_workgroup_filter_button,'clickable')
+        workgroup.click()
+        self.fnc_search_input_user(user)
+    def fnc_cap_details_save_button_click(self):
+        closure=self.wait_for_element(self.closure_cap_tab_element,'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", closure)
+        save_button=self.wait_for_element(self.cap_details_save_button_element,'clickable')
+        save_button.click()
+        time.sleep(2)
+        ok_button=self.wait_for_element(self.ok_button_after_save,'clickable')
+        ok_button.click()
+        return True
+    def fnc_click_issue_correction_tab_element(self):
+        self.wait_for_element(self.issue_correction_tab_element, 'visibility')
+        time.sleep(1)
+        issue_correction=self.wait_for_element(self.issue_correction_tab_element,'clickable')
+        issue_correction.click()
+    def fnc_select_status_radio_btn_element(self,status_text):
+        dd=self.wait_for_element(self.issue_correction_deliverable_document,'clickable')
+        self.driver.execute_script("arguments[0].scrollIntoView();", dd)
+        if status_text=="CAP In Progress":
+            cap_in_progress = self.wait_for_element(self.issue_correction_status_CAP_inProgress_radio_btn, 'presence')
+            self.driver.execute_script("arguments[0].click();", cap_in_progress)
+        elif status_text=="CAP Submitted":
+            cap_submitted = self.wait_for_element(self.issue_correction_status_CAP_submitted_radio_btn, 'presence')
+            self.driver.execute_script("arguments[0].click();", cap_submitted)
+        elif status_text == "CAP Deliverables Submitted":
+            cap_deliverables=self.wait_for_element(self.issue_correction_status_CAP_deliverables_submitted_radio_btn,'presence')
+            self.driver.execute_script("arguments[0].click();", cap_deliverables)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
